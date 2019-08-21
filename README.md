@@ -1,11 +1,11 @@
 [![Build Status](https://travis-ci.com/ghaleroshan/client_form.svg?branch=master)](https://travis-ci.com/ghaleroshan/client_form)
 ## client_form
-This is a simple client details form to gather the info on the clients and save to the database.
+This is a simple client details form to collect client information and save it on database.
 
 This project is built with Node Express and uses Mocha Nock and Proxyquire to test. Code coverage is provided with Istanbul (now called nyc).
 
-## Test passing for master on TravisCI
-it uses Travis CI for CI CD pipeline [![Build Status](https://travis-ci.com/ghaleroshan/client_form.svg?branch=master)](https://travis-ci.com/ghaleroshan/client_form).
+## Test passing for master on TravisCI?
+[![Build Status](https://travis-ci.com/ghaleroshan/client_form.svg?branch=master)](https://travis-ci.com/ghaleroshan/client_form).
 
 ## Dockerized and Cloud run
 This app is `dockerized` and uses google cloud run as hosting platform. 
