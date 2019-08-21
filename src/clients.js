@@ -12,7 +12,7 @@ const { joiValidate, httpError } = require("./utils");
  * Example curl:
  * curl -i -H "Accept: application/json"
  * -H "Content-Type: application/json"
- * -X GET http://localhost:9090/api/clientDetails
+ * -X GET http://localhost:8080/api/clientDetails
  */
 async function getMultiple() {
 
@@ -33,7 +33,7 @@ async function getMultiple() {
  * Example curl:
  * curl -i -H "Accept: application/json"
  * -H "Content-Type: application/json"
- * -X GET http://localhost:9090/api/clientDetails/2
+ * -X GET http://localhost:8080/api/clientDetails/2
  */
 
 async function get(id) {
@@ -80,7 +80,7 @@ function getclientCreateValidateRules() {
 
 /** Create clientDetails
  * Example curl:
- * curl -i -XPOST http://localhost:9090/api/clientDetails \
+ * curl -i -XPOST http://localhost:8080/api/clientDetails \
  * -H 'content-type: application/json;charset=UTF-8' \
  * -H 'accept: application/json' \
  * --data-binary  '{"full_name": "Roshan Ghale", "phone":"0411018726", "gender":1, "age": 28,"address":"Narwee", "email":"ghaler@gmail.com"}'
@@ -126,11 +126,11 @@ async function create(clientDetails) {
  *
  *
  * sample curl:
- * curl -ik -XPUT http://localhost:9090/api/clientDetails/2
+ * curl -ik -XPUT http://localhost:8080/api/clientDetails/2
  * -H 'content-type: application/json;charset=UTF-8' \
  * -H 'accept: application/json'
- * --data-binary  '{"first_name": "Mark", "middle_name" : " ", "last_name": "Hamilton", "phone": 04110718726, "position":"Manager", "email": "markhamil@gmail.com, "password":"mark123", "role_id":1 }'
- * @param client
+ * --data-binary  '{"full_name":"Roshan Ghale","age":26, "address":"Nepal","gender":1 "phone": 04110718726,"email": "markhamil@gmail.com}'
+ * @param clientDetails
  */
 
 async function update(id, clientDetails) {
@@ -186,7 +186,7 @@ async function update(id, clientDetails) {
  * @param {*} ids
  *
  * sample curl:
- * curl -ik -XPOST http://localhost:9090/api/clientDetails/ \
+ * curl -ik -XPOST http://localhost:8080/api/clientDetails/ \
  * -H 'content-type: application/json;charset=UTF-8' \
  * -H 'accept: application/json'
  * --data-binary  '{"clientIds": [6,10,14]}'
@@ -206,7 +206,7 @@ async function remove(clientIds) {
     };
     joiValidate({ clientIds: clientIds }, Joi.object(schema).required());
     try {
-        await db.query(`DELETE FROM client where (id) IN (?)`, [clientIds]);
+        await db.query(`DELETE FROM clientDetails where id = ?`, [clientIds]);
         console.log("client(s) of id: " + clientIds + " deleted successfully.");
 
         return {
