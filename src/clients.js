@@ -38,7 +38,7 @@ async function getMultiple() {
 
 async function get(id) {
     let client = await db.query(
-        `SELECT id, full_name, age, gender, address FROM clientDetails where e.id = ?`,
+        `SELECT id, full_name, age, gender, address FROM clientDetails where id = ?`,
         [id]
     );
     if (!client.length) {
@@ -55,7 +55,7 @@ function getclientCreateValidateRules() {
             .min(2)
             .max(255)
             .required()
-            .error(new Error("First name is required")),
+            .error(new Error("Full name is required")),
         phone: Joi.number()
             .integer()
             .required()
@@ -83,8 +83,8 @@ function getclientCreateValidateRules() {
  * curl -i -XPOST http://localhost:9090/api/clientDetails \
  * -H 'content-type: application/json;charset=UTF-8' \
  * -H 'accept: application/json' \
- * --data-binary  '{"first_name": "Mark", "middle_name":"", "last_name": "Hamilton", "phone":"0411018726", "email":"markhamil@gmail.com", "password":"", "role_id":1 }'
- * @param client
+ * --data-binary  '{"full_name": "Roshan Ghale", "phone":"0411018726", "gender":1, "age": 28,"address":"Narwee", "email":"ghaler@gmail.com"}'
+ * @param clientDetails
  */
 
 async function create(clientDetails) {
@@ -103,7 +103,7 @@ async function create(clientDetails) {
                 clientDetails.age,
                 clientDetails.email,
                 clientDetails.gender,
-                clientDetails.phone
+                clientDetails.address
             ]
         );
         console.log(
@@ -116,7 +116,7 @@ async function create(clientDetails) {
         };
     } catch (err) {
         const message = "Error while creating client";
-        logger.error(`${message}: ${err.message}`, err);
+        console.error(`${message}: ${err.message}`, err);
         throw httpError(message, 500);
     }
 }
@@ -134,7 +134,7 @@ async function create(clientDetails) {
  */
 
 async function update(id, clientDetails) {
-    client = Object.assign(id, clientDetails);
+   clients = Object.assign(id, clientDetails);
     const validationRules = Object.assign(
         {
             id: Joi.number()
@@ -147,32 +147,33 @@ async function update(id, clientDetails) {
         getclientCreateValidateRules()
     );
 
-    joiValidate(client, Joi.object(validationRules).required());
+    joiValidate(clients, Joi.object(validationRules).required());
     try {
         let res = await db.query(
-            `UPDATE clientDetails SET full_name = ?, age = ?, gender = ?, phone = ?, address = ?, email = ?, phone = ? 
+            `UPDATE clientDetails SET full_name = ?, age = ?, gender = ?, phone = ?, address = ?, email = ?
         WHERE id = ?`,
             [
                 clientDetails.full_name,
-                clientDetails.phone,
                 clientDetails.age,
-                clientDetails.email,
                 clientDetails.gender,
-                clientDetails.phone
-            ],  clientDetails.id
+                clientDetails.phone,
+                clientDetails.address,
+                clientDetails.email,
+                clientDetails.id
+            ]
         );
         console.log(
-            `Updated ${res.affectedRows} row(s) for client with id ${clientDetails.id}`
+            `Updated ${res.full_name} for client with id ${clientDetails.id}`
         );
 
         return {
-            message: `client ${clientDetails.first_name} with id ${
+            message: `client ${clientDetails.full_name} with id ${
                 clientDetails.id
             } updated successfully`
         };
     } catch (err) {
         const message = "Error while updating client";
-        logger.error(`${message}: ${err.message}`, err);
+        console.error(`${message}: ${err.message}`, err);
         throw httpError(message, 500);
     }
 }
@@ -213,7 +214,7 @@ async function remove(clientIds) {
         };
     } catch (err) {
         const message = "Error while deleting client(s)";
-        logger.error(`${message}: ${err.message}`, err);
+        console.error(`${message}: ${err.message}`, err);
         throw httpError(message, 500);
     }
 }
