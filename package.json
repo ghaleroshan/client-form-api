@@ -21,6 +21,7 @@
     "joi": "^14.3.1",
     "lodash": "^4.17.15",
     "mongodb": "^3.3.0-beta2",
+    "namshi-node-mysql": "^2.1.0",
     "nodemon": "^1.19.1"
   },
   "devDependencies": {
