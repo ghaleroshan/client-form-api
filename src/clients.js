@@ -56,8 +56,7 @@ function getclientCreateValidateRules() {
             .max(255)
             .required()
             .error(new Error("Full name is required")),
-        phone: Joi.number()
-            .integer()
+        phone: Joi.string()
             .required()
             .error(new Error("Phone number is required")),
         age: Joi.number()
