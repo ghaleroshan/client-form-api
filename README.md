@@ -7,7 +7,7 @@ This project is built with Node Express and uses Mocha Nock and Proxyquire to te
 ## Test passing for master on TravisCI?
 [![Build Status](https://travis-ci.com/ghaleroshan/client_form.svg?branch=master)](https://travis-ci.com/ghaleroshan/client_form).
 
-## Dockerized and Cloud run
+## Dockerized and Cloud run :whale:
 This app is `dockerized` and uses google cloud run as hosting platform. 
 
 ## How to Run
