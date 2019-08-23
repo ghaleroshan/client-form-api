@@ -63,9 +63,10 @@ function getclientCreateValidateRules() {
             .integer()
             .required()
             .error(new Error("Age is required")),
-        gender: Joi.string()
-            .required()
-            .error(new Error("Gender is required")),
+        gender: Joi.number()
+            .min(0)
+            .max(2)
+            .required(),
         address: Joi.string()
             .min(5)
             .max(250)
