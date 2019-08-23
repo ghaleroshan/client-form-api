@@ -1,0 +1,37 @@
+steps:
+  - name: "gcr.io/google_containers/ubuntu-slim:0.14"
+    args: ["bash", "./create-rev.sh"]
+    env:
+      - "BRANCH_NAME=$BRANCH_NAME"
+      - "COMMIT_SHA=$COMMIT_SHA"
+      - "REVISION_ID=$REVISION_ID"
+    volumes:
+      - name: "vol"
+        path: "/persistent_volume"
+  - name: "gcr.io/google_containers/ubuntu-slim:0.14"
+    args: ["sed", "-i", "s/tag: .*$/tag: ${BRANCH_NAME}/g", "helm/values.yaml"]
+    volumes:
+      - name: "vol"
+        path: "/persistent_volume"
+  - name: gcr.io/cloud-builders/docker
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/client_form:${BRANCH_NAME}", "."]
+    volumes:
+      - name: "vol"
+        path: "/persistent_volume"
+  - name: ubuntu
+    args: ["tar", "-cvzf", "/persistent_volume/client_form.tar.gz", "helm/"]
+    volumes:
+      - name: "vol"
+        path: "/persistent_volume"
+  - name: "gcr.io/cloud-builders/gsutil"
+    args:
+      [
+        "mv",
+        "/persistent_volume/clients_form.tar.gz",
+        "gs://client_form-helm/client_form/client_form-${BRANCH_NAME}.tar.gz",
+      ]
+    volumes:
+      - name: "vol"
+        path: "/persistent_volume"
+
+images: ["gcr.io/$PROJECT_ID/client_form"]
