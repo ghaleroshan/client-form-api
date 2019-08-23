@@ -1,8 +1,9 @@
 steps:
+  - name: 'gcr.io/cloud-builders/npm'
+   entrypoint: 'node'
+   args: ['--version']
+
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/client-form:${BRANCH_NAME}', "."]
-
-  - name: gcr.io/cloud-builders/git
-    args: ['fetch', '--unshallow']
 
 images: gcr.io/$PROJECT_ID/client-form
