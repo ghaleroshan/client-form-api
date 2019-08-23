@@ -6,50 +6,50 @@ const { joiValidate, httpError } = require("./utils");
 
 
 /**
- * Get all clients
+ * Get all clientDetails
  *
  * @param {*} params
  * Example curl:
  * curl -i -H "Accept: application/json"
  * -H "Content-Type: application/json"
- * -X GET http://localhost:8080/api/clients
+ * -X GET http://localhost:8080/api/clientDetails
  */
 async function getMultiple() {
 
     let clients = await db.query(
-        `SELECT id, fullName, gender, age, address, phone, email FROM clients`
+        `SELECT id, fullName, age, gender, phone, email, address FROM clientDetails`
     );
-    if (!clients.length) {
-        return [];
+    if (clients.length) {
+        return clients;
     }
     console.log(`Found ${clients.length} clients in the db`);
-    return clients;
+    return [];
 }
 
 /**
- * Get single clients by id
+ * Get single clientDetails by id
  *
  * @param {*} params
  * Example curl:
  * curl -i -H "Accept: application/json"
  * -H "Content-Type: application/json"
- * -X GET http://localhost:8080/api/clients/2
+ * -X GET http://localhost:8080/api/clientDetails/2
  */
 
 async function get(id) {
     let client = await db.query(
-        `SELECT id, fullName, age, gender, address FROM clients where id = ?`,
+        `SELECT id,fullName, age, gender, phone, email, address FROM clientDetails where id = ?`,
         [id]
     );
     if (!client.length) {
         return [];
     }
 
-    console.log(`Found ${client.length} clients in the db`);
+    console.log(`Found ${client.length} clientDetails in the db`);
     return client;
 }
 
-function getclientCreateValidateRules() {
+function getClientCreateValidateRules() {
     return {
         fullName: Joi.string()
             .min(2)
@@ -77,39 +77,39 @@ function getclientCreateValidateRules() {
     };
 }
 
-/** Create clients
+/** Create clientDetails
  * Example curl:
- * curl -i -XPOST http://localhost:8080/api/clients \
+ * curl -i -XPOST http://localhost:8080/api/clientDetails \
  * -H 'content-type: application/json;charset=UTF-8' \
  * -H 'accept: application/json' \
  * --data-binary  '{"fullName": "Roshan Ghale", "phone":"0411018726", "gender":"Male", "age": 28,"address":"Narwee", "email":"ghaler@gmail.com"}'
- * @param clients
+ * @param clientDetails
  */
 
-async function create(clients) {
+async function create(clientDetails) {
     joiValidate(
-        clients,
-        Joi.object(getclientCreateValidateRules()).required()
+        clientDetails,
+        Joi.object(getClientCreateValidateRules()).required()
     );
 
     try {
         let res = await db.query(
-            `INSERT INTO clients (fullName, age, gender,  phone, email, address)
+            `INSERT INTO clientDetails (fullName, age, gender,  phone, email, address)
       VALUES (?,?,?,?,?,?)`,
             [
-                clients.fullName,
-                clients.age,
-                clients.gender,
-                clients.phone,
-                clients.email,
-                clients.address
+                clientDetails.fullName,
+                clientDetails.age,
+                clientDetails.gender,
+                clientDetails.phone,
+                clientDetails.email,
+                clientDetails.address
             ]
         );
         console.log(
-            `Created client ${clients.fullName} with id ${res.insertId}`
+            `Created client ${clientDetails.fullName} with id ${res.insertId}`
         );
         return {
-            message: `client ${clients.fullName} with id ${
+            message: `client ${clientDetails.fullName} with id ${
                 res.insertId
             } created successfully`
         };
@@ -121,19 +121,19 @@ async function create(clients) {
 }
 
 /**
- * Update clients
+ * Update clientDetails
  *
  *
  * sample curl:
- * curl -ik -XPUT http://localhost:8080/api/clients/2
+ * curl -ik -XPUT http://localhost:8080/api/clientDetails/2
  * -H 'content-type: application/json;charset=UTF-8' \
  * -H 'accept: application/json'
  * --data-binary  '{"fullName":"Roshan Ghale","age":26, "address":"Nepal","gender":1 "phone": 04110718726,"email": "markhamil@gmail.com}'
- * @param clients
+ * @param clientDetails
  */
 
-async function update(id, clients) {
-   clients = Object.assign(id, clients);
+async function update(id, clientDetails) {
+   clientDetails = Object.assign(id, clientDetails);
     const validationRules = Object.assign(
         {
             id: Joi.number()
@@ -143,31 +143,31 @@ async function update(id, clients) {
                 .required()
                 .error(new Error("Id is required as an integer"))
         },
-        getclientCreateValidateRules()
+        getClientCreateValidateRules()
     );
 
-    joiValidate(clients, Joi.object(validationRules).required());
+    joiValidate(clientDetails, Joi.object(validationRules).required());
     try {
         let res = await db.query(
-            `UPDATE clients SET fullName = ?, age = ?, gender = ?, phone = ?,  email = ?, address = ?
+            `UPDATE clientDetails SET fullName = ?, age = ?, gender = ?, phone = ?,  email = ?, address = ?
         WHERE id = ?`,
             [
-                clients.fullName,
-                clients.age,
-                clients.gender,
-                clients.phone,
-                clients.address,
-                clients.email,
-                clients.id
+                clientDetails.fullName,
+                clientDetails.age,
+                clientDetails.gender,
+                clientDetails.phone,
+                clientDetails.address,
+                clientDetails.email,
+                clientDetails.id
             ]
         );
         console.log(
-            `Updated ${res.fullName} for client with id ${clients.id}`
+            `Updated ${res.fullName} for client with id ${clientDetails.id}`
         );
 
         return {
-            message: `client ${clients.fullName} with id ${
-                clients.id
+            message: `client ${clientDetails.fullName} with id ${
+                clientDetails.id
             } updated successfully`
         };
     } catch (err) {
@@ -178,14 +178,14 @@ async function update(id, clients) {
 }
 
 /**
- * Delete multiple clients
+ * Delete multiple clientDetails
  *
  * 'delete' is javascript reserved word so 'remove' is used as function name.
  *
  * @param {*} ids
  *
  * sample curl:
- * curl -ik -XPOST http://localhost:8080/api/clients/ \
+ * curl -ik -XPOST http://localhost:8080/api/clientDetails/ \
  * -H 'content-type: application/json;charset=UTF-8' \
  * -H 'accept: application/json'
  * --data-binary  '{"clientIds": [6,10,14]}'
@@ -205,7 +205,7 @@ async function remove(clientIds) {
     };
     joiValidate({ clientIds: clientIds }, Joi.object(schema).required());
     try {
-        await db.query(`DELETE FROM clients where id = ?`, [clientIds]);
+        await db.query(`DELETE FROM clientDetails where id = ?`, [clientIds]);
         console.log("client(s) of id: " + clientIds + " deleted successfully.");
 
         return {
