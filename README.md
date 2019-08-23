@@ -8,7 +8,7 @@ This project is built with Node Express and uses Mocha Nock and Proxyquire to te
 [![Build Status](https://travis-ci.com/ghaleroshan/client_form.svg?branch=master)](https://travis-ci.com/ghaleroshan/client_form).
 
 ## Dockerized and Cloud run :whale:
-This app is `dockerized` and uses google cloud run as hosting platform. 
+This app is `dockerized` and uses google cloud run as hosting platform. CloudBuild.yaml file will create a container image with every push and builds a docker container. 
 
 ## How to Run
 To run, we assume that you can push and pull in GitHub and have nodemon installed globally with `npm install -g nodemon`. 
