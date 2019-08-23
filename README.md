@@ -24,7 +24,7 @@ Then follow below steps:
 ## Configs
 Configs for db like username, password etc are in the `/src/config.js` file.
 
-##How it works
+## How it works
 The GET api works in the following way:
 
 - Hit URL /api/clients.
