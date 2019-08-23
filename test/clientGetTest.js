@@ -11,29 +11,14 @@ const clients = proxyquire("./../src/clients", {
 
 describe("clients", () => {
     describe("getMultiple", () => {
-        it("should return no clients from the db when no clients exists", async () => {
+          it("should return clients from the db when clients exists", async () => {
             try {
                 mysqlStub.query = (query, params) => {
-                    if (query.startsWith(`SELECT id, full_name`)) {
-                        return [];
-                    }
-                };
-
-                const result = await clients.getMultiple({});
-                assert.deepStrictEqual(result, []);
-            } catch (err) {
-                console.log(`err`, err);
-                assert.strictEqual(err.message, "should never reach here");
-            }
-        });
-        it("should return clients from the db when clients exists", async () => {
-            try {
-                mysqlStub.query = (query, params) => {
-                    if (query.startsWith(`SELECT id, full_name`)) {
+                    if (query.startsWith(`SELECT id, fullName`)) {
                         return [
                             {
-                                id: 0,
-                                full_name:"Alice Limbu",
+                                id: 1,
+                                fullName:"Alice Limbu",
                                 gender:1,
                                 age:28,
                                 address:"Kogarah",
@@ -46,8 +31,8 @@ describe("clients", () => {
 
                 const result = await clients.getMultiple({});
                 assert.deepStrictEqual(result[0], {
-                    id: 0,
-                    full_name:"Alice Limbu",
+                    id: 1,
+                    fullName:"Alice Limbu",
                     gender:1,
                     age:28,
                     address:"Kogarah",
@@ -57,6 +42,21 @@ describe("clients", () => {
             } catch (err) {
                 console.log(`err`, err);
                 assert.deepStrictEqual(err.message, "should never reach here");
+            }
+        });
+        it("should return no clients from the db when no clients exists", async () => {
+            try {
+                mysqlStub.query = (query, params) => {
+                    if (query.startsWith(`SELECT id, fullName`)) {
+                        return [];
+                    }
+                };
+
+                const result = await clients.getMultiple({});
+                assert.deepStrictEqual(result, []);
+            } catch (err) {
+                console.log(`err`, err);
+                assert.strictEqual(err.message, "should never reach here");
             }
         });
     });
