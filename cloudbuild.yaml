@@ -1,7 +1,13 @@
 steps:
   - name: 'gcr.io/cloud-builders/npm'
-   entrypoint: 'node'
-   args: ['--version']
+    entrypoint: 'node'
+    args: ['install']
+
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run' , 'test:unit']
+
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run' , 'build']
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/client-form:${BRANCH_NAME}', "."]
