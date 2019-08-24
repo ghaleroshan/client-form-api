@@ -6,7 +6,7 @@ steps:
     args: ["push", "gcr.io/$PROJECT_ID/client_form"]
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['beta', 'run', 'deploy', 'client-form', '--image', 'gcr.io/$PROJECT_ID/client-form', '--region', 'us-central1', '--platform', 'managed']
+    args: ['beta', 'run', 'deploy', 'client-form-api', '--image', 'gcr.io/$PROJECT_ID/client-form-api', '--region', 'us-central1', '--platform', 'managed']
 
 images:
-    - gcr.io/$PROJECT_ID/client-form
+    - gcr.io/$PROJECT_ID/client-form-api
