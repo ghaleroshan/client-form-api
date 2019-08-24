@@ -1,15 +1,37 @@
 steps:
-  - name: 'gcr.io/cloud-builders/npm'
-    entrypoint: 'node'
-    args: ['install']
+  - name: "gcr.io/google_containers/ubuntu-slim:0.14"
+    args: ["bash", "./create-rev.sh"]
+    env:
+      - "BRANCH_NAME=$BRANCH_NAME"
+      - "COMMIT_SHA=$COMMIT_SHA"
+      - "REVISION_ID=$REVISION_ID"
+    volumes:
+      - name: "vol"
+        path: "/persistent_volume"
+  - name: "gcr.io/google_containers/ubuntu-slim:0.14"
+    args: ["sed", "-i", "s/tag: .*$/tag: ${BRANCH_NAME}/g", "helm/values.yaml"]
+    volumes:
+      - name: "vol"
+        path: "/persistent_volume"
+  - name: gcr.io/cloud-builders/docker
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/client-form:${BRANCH_NAME}", "."]
+    volumes:
+      - name: "vol"
+        path: "/persistent_volume"
+  - name: ubuntu
+    args: ["tar", "-cvzf", "/persistent_volume/client-form.tar.gz", "helm/"]
+    volumes:
+      - name: "vol"
+        path: "/persistent_volume"
+  - name: "gcr.io/cloud-builders/gsutil"
+    args:
+      [
+        "mv",
+        "/persistent_volume/client-form.tar.gz",
+        "gs://respos-api-helm/client-form/client-form-${BRANCH_NAME}.tar.gz",
+      ]
+    volumes:
+      - name: "vol"
+        path: "/persistent_volume"
 
-  - name: 'gcr.io/cloud-builders/npm'
-    args: ['run' , 'test:unit']
-
-  - name: 'gcr.io/cloud-builders/npm'
-    args: ['run' , 'build']
-
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/client-form:${BRANCH_NAME}', "."]
-
-images: gcr.io/$PROJECT_ID/client-form
+images: ["gcr.io/$PROJECT_ID/client-form"]
