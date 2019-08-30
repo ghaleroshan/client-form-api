@@ -1,12 +1,12 @@
 steps:
   - name: gcr.io/cloud-builders/docker
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/client_form:${SHORT_SHA}', '.']
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/client-form-api:${SHORT_SHA}', '.']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ["push", "gcr.io/$PROJECT_ID/client_form"]
+    args: ["push", "gcr.io/$PROJECT_ID/client-form-api"]
 
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['beta', 'run', 'deploy', 'client-form-api', '--image', 'gcr.io/$PROJECT_ID/client_form:${SHORT_SHA}', '--region', 'us-central1', '--platform', 'managed', '--memory', '128Mi']
+    args: ['beta', 'run', 'deploy', 'client-form-api', '--image', 'gcr.io/$PROJECT_ID/client-form-api:${SHORT_SHA}', '--region', 'us-central1', '--platform', 'managed', '--memory', '128Mi']
 
 images:
     - gcr.io/$PROJECT_ID/client-form-api
