@@ -5,13 +5,11 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 require("dotenv").config();
 const clients = require('./src/clients');
-const helmet = require("helmet");
 
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
-app.use(helmet());
 
 app.get("/", (req, res) => {
 res.json('Welcome to the app')
