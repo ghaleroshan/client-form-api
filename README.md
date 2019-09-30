@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.com/ghaleroshan/client-form-api.svg?branch=master)](https://travis-ci.com/ghaleroshan/client-form-api)
-
 ## client-form-api
 This is a simple client details form to collect client information and save it on database.
 
