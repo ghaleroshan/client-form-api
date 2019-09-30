@@ -6,7 +6,7 @@ This is a simple client details form to collect client information and save it o
 This project is built with Node Express and uses Mocha Nock and Proxyquire to test. Code coverage is provided with Istanbul (now called nyc).
 
 ## Test passing for master on TravisCI?
-[![Build Status](https://travis-ci.com/ghaleroshan/client_form.svg?branch=master)](https://travis-ci.com/ghaleroshan/client_form).
+[![Build Status](https://travis-ci.com/ghaleroshan/client-form-api.svg?branch=master)](https://travis-ci.com/ghaleroshan/client-form-api)
 
 ## Dockerized and Cloud run :whale:
 This app is `dockerized` and uses google cloud run as hosting platform. CloudBuild.yaml file will create a container image with every push and builds a docker container. 
