@@ -1,5 +1,6 @@
-[![Build Status](https://travis-ci.com/ghaleroshan/client_form.svg?branch=master)](https://travis-ci.com/ghaleroshan/client_form)
-## client_form
+[![Build Status](https://travis-ci.com/ghaleroshan/client-form-api.svg?branch=master)](https://travis-ci.com/ghaleroshan/client-form-api)
+
+## client-form-api
 This is a simple client details form to collect client information and save it on database.
 
 This project is built with Node Express and uses Mocha Nock and Proxyquire to test. Code coverage is provided with Istanbul (now called nyc).
