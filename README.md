@@ -1,7 +1,6 @@
 ## client-form-api
 
 This is a simple client details form to collect client information and save it on database.
-This is a test for google cloud run
 
 This project is built with Node Express and uses Mocha Nock and Proxyquire to test. Code coverage is provided with Istanbul (now called nyc).
 
