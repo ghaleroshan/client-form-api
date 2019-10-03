@@ -1,12 +1,16 @@
 ## client-form-api
+
 This is a simple client details form to collect client information and save it on database.
+This is a test for google cloud run
 
 This project is built with Node Express and uses Mocha Nock and Proxyquire to test. Code coverage is provided with Istanbul (now called nyc).
 
 ## Test passing for master on TravisCI?
+
 [![Build Status](https://travis-ci.com/ghaleroshan/client-form-api.svg?branch=master)](https://travis-ci.com/ghaleroshan/client-form-api)
 
 ## Dockerized and Cloud run :whale:
+
 This app is `dockerized` and uses google cloud run as hosting platform. CloudBuild.yaml file will create a container image with every push and builds a docker container.
 
 ## Run on Google Cloud Run
@@ -17,7 +21,8 @@ Just click the above button if you have a GCP account with a project. Wait for i
 on Google Cloud Run.
 
 ## How to Run
-To run, we assume that you can push and pull in GitHub and have nodemon installed globally with `npm install -g nodemon`. 
+
+To run, we assume that you can push and pull in GitHub and have nodemon installed globally with `npm install -g nodemon`.
 
 Then follow below steps:
 
@@ -28,9 +33,11 @@ Then follow below steps:
 - check below
 
 ## Configs
+
 Configs for db like username, password etc are in the `/src/config.js` file.
 
 ## How it works
+
 The GET api works in the following way:
 
 - Hit URL /api/clients.
