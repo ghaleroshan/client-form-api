@@ -1,40 +1,50 @@
-const express = require ('express');
+const express = require("express");
 require("express-async-errors");
-const expressUtils = require('expressjs-utils');
-const bodyParser = require('body-parser');
+const expressUtils = require("expressjs-utils");
+const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
-const clients = require('./src/clients');
+const clients = require("./src/clients");
 
+if (process.env.NODE_ENV === "production") {
+  require("@google-cloud/profiler").start({
+    serviceContext: {
+      service: "nenn-poster",
+      version: "1.0.0"
+    }
+  });
+  require("@google-cloud/trace-agent").start();
+  require("@google-cloud/debug-agent").start();
+}
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
 app.get("/", (req, res) => {
-res.json('Welcome to the app')
+  res.json("Welcome to the app");
 });
 
 app.get("/api/clients", async (req, res) => {
-    res.json(await clients.getMultiple(req.query.page || 2));
+  res.json(await clients.getMultiple(req.query.page || 2));
 });
 
 app.get("/api/clients/:id?", async (req, res) => {
-    res.json(await clients.get(req.params.id));
+  res.json(await clients.get(req.params.id));
 });
 
 app.post("/api/clients", async (req, res) => {
-    res.json(await clients.create(req.body));
+  res.json(await clients.create(req.body));
 });
 
 app.put("/api/clients/:id", async (req, res) => {
-    res.json(await clients.update(req.params, req.body));
+  res.json(await clients.update(req.params, req.body));
 });
 
 app.delete("/api/clients", async (req, res) => {
-    res.json(await clients.remove(req.body.clientIds));
+  res.json(await clients.remove(req.body.clientIds));
 });
 
-app.listen(8080,()=>{
-    console.log('App Running')
+app.listen(8080, () => {
+  console.log("App Running");
 });
